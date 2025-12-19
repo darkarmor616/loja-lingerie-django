@@ -1,0 +1,37 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Deletar Categoria - Loja de Lingerie{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2 style="color: #f44336;">🗑️ Confirmar Exclusão</h2>
+    
+    <div style="background-color: #fff3cd; border: 1px solid #ffc107; padding: 1rem; border-radius: 4px; margin: 1.5rem 0;">
+        <strong>⚠️ Atenção!</strong> Você está prestes a deletar a categoria abaixo:
+    </div>
+    
+    <div style="background-color: #f8f9fa; padding: 1.5rem; border-radius: 4px; margin: 1.5rem 0;">
+        <p><strong>Nome:</strong> {{ categoria.nome_categoria }}</p>
+        <p><strong>Descrição:</strong> {{ categoria.descricao|default:"Sem descrição" }}</p>
+        <p><strong>Status:</strong> 
+            {% if categoria.ativo %}
+            <span class="badge badge-success">Ativa</span>
+            {% else %}
+            <span class="badge badge-danger">Inativa</span>
+            {% endif %}
+        </p>
+    </div>
+    
+    <p style="color: #d32f2f; font-weight: bold; margin: 1.5rem 0;">
+        ⚠️ Esta ação não pode ser desfeita!
+    </p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div class="actions">
+            <button type="submit" class="btn btn-danger">🗑️ Sim, Deletar</button>
+            <a href="{% url 'categoria_lista' %}" class="btn btn-secondary">↩️ Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

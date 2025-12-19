@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Produtos - Loja de Lingerie{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 style="margin: 0;">👗 Produtos</h2>
+        <a href="{% url 'produto_criar' %}" class="btn btn-success">➕ Novo Produto</a>
+    </div>
+    
+    {% if produtos %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Marca</th>
+                <th>Preço Custo</th>
+                <th>Preço Venda</th>
+                <th>Margem %</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in produtos %}
+            <tr>
+                <td>{{ produto.id_produto }}</td>
+                <td><strong>{{ produto.nome_produto }}</strong></td>
+                <td>{{ produto.marca|default:"Sem marca" }}</td>
+                <td>R$ {{ produto.preco_custo }}</td>
+                <td><strong>R$ {{ produto.preco_venda }}</strong></td>
+                <td>
+                    {% if produto.margem_lucro %}
+                    {{ produto.margem_lucro|floatformat:1 }}%
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+                <td>
+                    {% if produto.ativo %}
+                    <span class="badge badge-success">Ativo</span>
+                    {% else %}
+                    <span class="badge badge-danger">Inativo</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'produto_editar' produto.id_produto %}" class="btn btn-primary" style="padding: 0.3rem 0.6rem;">✏️ Editar</a>
+                    <a href="{% url 'produto_deletar' produto.id_produto %}" class="btn btn-danger" style="padding: 0.3rem 0.6rem;">🗑️ Deletar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>📭 Nenhum produto cadastrado ainda.</p>
+        <a href="{% url 'produto_criar' %}" class="btn btn-success">➕ Cadastrar Primeiro Produto</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

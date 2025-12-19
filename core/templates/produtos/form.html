@@ -1,0 +1,96 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{% if produto %}Editar{% else %}Novo{% endif %} Produto - Loja de Lingerie{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>{% if produto %}✏️ Editar Produto{% else %}➕ Novo Produto{% endif %}</h2>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="nome_produto">Nome do Produto: *</label>
+            <input 
+                type="text" 
+                id="nome_produto" 
+                name="nome_produto" 
+                value="{{ produto.nome_produto|default:'' }}"
+                required
+                maxlength="100"
+                placeholder="Ex: Sutiã Meia Taça Renda">
+        </div>
+        
+        <div class="form-group">
+            <label for="marca">Marca:</label>
+            <input 
+                type="text" 
+                id="marca" 
+                name="marca" 
+                value="{{ produto.marca|default:'' }}"
+                maxlength="50"
+                placeholder="Ex: Valisere, Hope, Triumph...">
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+                <label for="preco_custo">Preço de Custo (R$): *</label>
+                <input 
+                    type="number" 
+                    id="preco_custo" 
+                    name="preco_custo" 
+                    value="{{ produto.preco_custo|default:'' }}"
+                    required
+                    step="0.01"
+                    min="0"
+                    placeholder="0.00">
+            </div>
+            
+            <div class="form-group">
+                <label for="preco_venda">Preço de Venda (R$): *</label>
+                <input 
+                    type="number" 
+                    id="preco_venda" 
+                    name="preco_venda" 
+                    value="{{ produto.preco_venda|default:'' }}"
+                    required
+                    step="0.01"
+                    min="0"
+                    placeholder="0.00">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="checkbox-group">
+                <input 
+                    type="checkbox" 
+                    id="ativo" 
+                    name="ativo"
+                    {% if not produto or produto.ativo %}checked{% endif %}>
+                <label for="ativo" style="margin: 0;">Produto Ativo</label>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button type="submit" class="btn btn-success">💾 Salvar</button>
+            <a href="{% url 'produto_lista' %}" class="btn btn-secondary">↩️ Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Calcula margem de lucro em tempo real
+    document.getElementById('preco_custo').addEventListener('input', calcularMargem);
+    document.getElementById('preco_venda').addEventListener('input', calcularMargem);
+    
+    function calcularMargem() {
+        const custo = parseFloat(document.getElementById('preco_custo').value) || 0;
+        const venda = parseFloat(document.getElementById('preco_venda').value) || 0;
+        
+        if (custo > 0) {
+            const margem = ((venda - custo) / custo) * 100;
+            console.log('Margem de lucro:', margem.toFixed(2) + '%');
+        }
+    }
+</script>
+{% endblock %}

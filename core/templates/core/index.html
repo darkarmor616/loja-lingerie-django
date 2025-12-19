@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Início - Loja de Lingerie{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Bem-vindo ao Sistema de Gestão</h2>
+    
+    <p style="margin: 1.5rem 0;">
+        Este sistema permite gerenciar as principais entidades da loja de lingerie:
+    </p>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+        <div style="border: 2px solid #9c27b0; border-radius: 8px; padding: 1.5rem;">
+            <h3 style="color: #9c27b0;">📂 Categorias</h3>
+            <p style="margin: 1rem 0;">Gerencie as categorias de produtos como Sutiãs, Calcinhas, Conjuntos, etc.</p>
+            <a href="{% url 'categoria_lista' %}" class="btn btn-primary">Acessar Categorias</a>
+        </div>
+        
+        <div style="border: 2px solid #9c27b0; border-radius: 8px; padding: 1.5rem;">
+            <h3 style="color: #9c27b0;">👗 Produtos</h3>
+            <p style="margin: 1rem 0;">Cadastre e gerencie todos os produtos disponíveis na loja.</p>
+            <a href="{% url 'produto_lista' %}" class="btn btn-primary">Acessar Produtos</a>
+        </div>
+        
+        <div style="border: 2px solid #9c27b0; border-radius: 8px; padding: 1.5rem;">
+            <h3 style="color: #9c27b0;">👥 Clientes</h3>
+            <p style="margin: 1rem 0;">Mantenha o cadastro de clientes atualizado com todas as informações.</p>
+            <a href="{% url 'cliente_lista' %}" class="btn btn-primary">Acessar Clientes</a>
+        </div>
+    </div>
+    
+    <div style="margin-top: 3rem; padding: 1.5rem; background-color: #f0f0f0; border-radius: 8px;">
+        <h3 style="color: #555;">ℹ️ Funcionalidades Disponíveis</h3>
+        <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+            <li><strong>Criar:</strong> Adicionar novos registros</li>
+            <li><strong>Listar:</strong> Visualizar todos os registros cadastrados</li>
+            <li><strong>Editar:</strong> Atualizar informações existentes</li>
+            <li><strong>Deletar:</strong> Remover registros do sistema</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

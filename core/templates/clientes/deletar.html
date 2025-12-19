@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Deletar Cliente - Loja de Lingerie{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2 style="color: #f44336;">🗑️ Confirmar Exclusão</h2>
+    
+    <div style="background-color: #fff3cd; border: 1px solid #ffc107; padding: 1rem; border-radius: 4px; margin: 1.5rem 0;">
+        <strong>⚠️ Atenção!</strong> Você está prestes a deletar o cliente abaixo:
+    </div>
+    
+    <div style="background-color: #f8f9fa; padding: 1.5rem; border-radius: 4px; margin: 1.5rem 0;">
+        <p><strong>Nome:</strong> {{ cliente.nome_cliente }}</p>
+        <p><strong>CPF:</strong> {{ cliente.cpf }}</p>
+        <p><strong>E-mail:</strong> {{ cliente.email|default:"Não informado" }}</p>
+        <p><strong>Telefone:</strong> {{ cliente.telefone|default:"Não informado" }}</p>
+        <p><strong>Status:</strong> 
+            {% if cliente.ativo %}
+            <span class="badge badge-success">Ativo</span>
+            {% else %}
+            <span class="badge badge-danger">Inativo</span>
+            {% endif %}
+        </p>
+    </div>
+    
+    <p style="color: #d32f2f; font-weight: bold; margin: 1.5rem 0;">
+        ⚠️ Esta ação não pode ser desfeita!
+    </p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div class="actions">
+            <button type="submit" class="btn btn-danger">🗑️ Sim, Deletar</button>
+            <a href="{% url 'cliente_lista' %}" class="btn btn-secondary">↩️ Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

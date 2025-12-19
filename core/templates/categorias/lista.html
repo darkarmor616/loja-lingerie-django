@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Categorias - Loja de Lingerie{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 style="margin: 0;">📂 Categorias</h2>
+        <a href="{% url 'categoria_criar' %}" class="btn btn-success">➕ Nova Categoria</a>
+    </div>
+    
+    {% if categorias %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for categoria in categorias %}
+            <tr>
+                <td>{{ categoria.id_categoria }}</td>
+                <td><strong>{{ categoria.nome_categoria }}</strong></td>
+                <td>{{ categoria.descricao|truncatewords:10 }}</td>
+                <td>
+                    {% if categoria.ativo %}
+                    <span class="badge badge-success">Ativa</span>
+                    {% else %}
+                    <span class="badge badge-danger">Inativa</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'categoria_editar' categoria.id_categoria %}" class="btn btn-primary" style="padding: 0.3rem 0.6rem;">✏️ Editar</a>
+                    <a href="{% url 'categoria_deletar' categoria.id_categoria %}" class="btn btn-danger" style="padding: 0.3rem 0.6rem;">🗑️ Deletar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>📭 Nenhuma categoria cadastrada ainda.</p>
+        <a href="{% url 'categoria_criar' %}" class="btn btn-success">➕ Cadastrar Primeira Categoria</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

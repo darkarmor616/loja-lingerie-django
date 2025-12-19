@@ -1,0 +1,55 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Clientes - Loja de Lingerie{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 style="margin: 0;">👥 Clientes</h2>
+        <a href="{% url 'cliente_criar' %}" class="btn btn-success">➕ Novo Cliente</a>
+    </div>
+    
+    {% if clientes %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>E-mail</th>
+                <th>Telefone</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.id_cliente }}</td>
+                <td><strong>{{ cliente.nome_cliente }}</strong></td>
+                <td>{{ cliente.cpf }}</td>
+                <td>{{ cliente.email|default:"-" }}</td>
+                <td>{{ cliente.telefone|default:"-" }}</td>
+                <td>
+                    {% if cliente.ativo %}
+                    <span class="badge badge-success">Ativo</span>
+                    {% else %}
+                    <span class="badge badge-danger">Inativo</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'cliente_editar' cliente.id_cliente %}" class="btn btn-primary" style="padding: 0.3rem 0.6rem;">✏️ Editar</a>
+                    <a href="{% url 'cliente_deletar' cliente.id_cliente %}" class="btn btn-danger" style="padding: 0.3rem 0.6rem;">🗑️ Deletar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>📭 Nenhum cliente cadastrado ainda.</p>
+        <a href="{% url 'cliente_criar' %}" class="btn btn-success">➕ Cadastrar Primeiro Cliente</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
